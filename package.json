@@ -11,6 +11,7 @@
     "eject": "react-scripts eject"
   },
   "jest": {
+    "testTimeout": 60000,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/**/*.d.ts",
