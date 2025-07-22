@@ -4,7 +4,7 @@ parameters:
   image-tag:
     type: string
     default: "current"
-#test
+#tests
 executors:
   node-executor:
     docker:
