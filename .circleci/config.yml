@@ -35,13 +35,17 @@ jobs:
             find tests -name "*.test.js" | head -10
             echo "Knapsack Pro token set: ${KNAPSACK_PRO_TEST_SUITE_TOKEN:+YES}"
             echo "Node index: $CIRCLE_NODE_INDEX of $CIRCLE_NODE_TOTAL"
+            echo "Expected total tests: $(($(find tests -name '*.test.js' | wc -l) * 4))"
+            echo "🚀 Starting Knapsack Pro..."
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
-            echo "✅ Knapsack Pro React tests completed"
+            echo "✅ Knapsack Pro React tests completed on node $CIRCLE_NODE_INDEX"
+            echo "📊 Final test count summary will be in artifacts"
           environment:
             CI: true
             KNAPSACK_PRO_TEST_SUITE_TOKEN: $KNAPSACK_PRO_TEST_SUITE_TOKEN
             KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests/**/*.test.js"
             KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
+            KNAPSACK_PRO_LOG_LEVEL: info
             JEST_JUNIT_OUTPUT_DIR: test-results
             JEST_JUNIT_UNIQUE_OUTPUT_NAME: true
       - store_test_results:
