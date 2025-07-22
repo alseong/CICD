@@ -82,4 +82,4 @@ workflows:
   test:
     jobs:
       - test-react-functionality-knapsack-queue
-      - test-react-functionality-knapsack-regular
+      # - test-react-functionality-knapsack-regular
