@@ -10,23 +10,25 @@
     "test:knapsack": "npx knapsack-pro-jest",
     "eject": "react-scripts eject"
   },
-      "jest": {
-      "collectCoverageFrom": [
-        "src/**/*.{js,jsx,ts,tsx}",
-        "!src/**/*.d.ts",
-        "tests/**/*.{js,jsx,ts,tsx}"
-      ],
-      "testMatch": [
-        "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-        "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}",
-        "<rootDir>/tests/**/*.{spec,test}.{js,jsx,ts,tsx}"
-      ],
-      "moduleNameMapper": {
-        "^.+\\.(css|less|scss|sass)$": "identity-obj-proxy",
-        "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "identity-obj-proxy"
-      },
-      "resetMocks": true
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts",
+      "tests/**/*.{js,jsx,ts,tsx}",
+      "tests2/**/*.{js,jsx,ts,tsx}"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}",
+      "<rootDir>/tests/**/*.{spec,test}.{js,jsx,ts,tsx}",
+      "<rootDir>/tests2/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "moduleNameMapper": {
+      "^.+\\.(css|less|scss|sass)$": "identity-obj-proxy",
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "identity-obj-proxy"
     },
+    "resetMocks": true
+  },
   "babel": {
     "presets": [
       "react-app"
