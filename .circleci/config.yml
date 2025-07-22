@@ -39,6 +39,16 @@ jobs:
             echo "🚀 Starting Knapsack Pro..."
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
             echo "✅ Knapsack Pro React tests completed on node $CIRCLE_NODE_INDEX"
+            echo "📊 Checking generated XML files..."
+            ls -la test-results/
+            echo "📊 XML file contents summary:"
+            for file in test-results/*.xml; do
+              if [ -f "$file" ]; then
+                echo "=== $file ==="
+                grep -o 'tests="[0-9]*"' "$file" || echo "No tests attribute found"
+                grep -o 'testcase.*name=' "$file" | wc -l || echo "No testcases found"
+              fi
+            done
             echo "📊 Final test count summary will be in artifacts"
           environment:
             CI: true
@@ -47,6 +57,7 @@ jobs:
             KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
             KNAPSACK_PRO_LOG_LEVEL: info
             JEST_JUNIT_OUTPUT_DIR: test-results
+            JEST_JUNIT_OUTPUT_NAME: node-${CIRCLE_NODE_INDEX}-batch.xml
             JEST_JUNIT_UNIQUE_OUTPUT_NAME: true
       - store_test_results:
           path: test-results
