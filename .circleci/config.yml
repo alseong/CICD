@@ -24,11 +24,6 @@ jobs:
             npm ci
             echo "✅ All dependencies installed!"
       - run:
-          name: Debug Queue Mode API Key
-          command: |
-            echo "⚠️  SECURITY WARNING: Printing Queue Mode API key - REMOVE AFTER DEBUGGING!"
-            echo "KNAPSACK_PRO_TEST_SUITE_TOKEN_QUEUE: $KNAPSACK_PRO_TEST_SUITE_TOKEN_QUEUE"
-      - run:
           name: Run React tests with Knapsack Pro (Queue Mode)
           command: |
             mkdir -p test-results
@@ -61,11 +56,6 @@ jobs:
             echo "🔄 Installing fresh dependencies..."
             npm ci
             echo "✅ All dependencies installed!"
-      - run:
-          name: Debug Regular Mode API Key
-          command: |
-            echo "⚠️  SECURITY WARNING: Printing Regular Mode API key - REMOVE AFTER DEBUGGING!"
-            echo "KNAPSACK_PRO_TEST_SUITE_TOKEN_REGULAR: $KNAPSACK_PRO_TEST_SUITE_TOKEN_REGULAR"
       - run:
           name: Run React tests with Knapsack Pro (Regular Mode)
           command: |
