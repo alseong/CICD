@@ -14,7 +14,7 @@ executors:
 jobs:
   test-react-functionality-knapsack-queue:
     executor: node-executor
-    parallelism: 2
+    parallelism: 4
     steps:
       - checkout
       - run:
