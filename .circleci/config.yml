@@ -37,6 +37,7 @@ jobs:
             echo "Node index: $CIRCLE_NODE_INDEX of $CIRCLE_NODE_TOTAL"
             echo "Expected total tests: $(($(find tests -name '*.test.js' | wc -l) * 4))"
             echo "🚀 Starting Knapsack Pro..."
+            export JEST_JUNIT_OUTPUT_DIR="test-results"
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
             echo "✅ Knapsack Pro React tests completed on node $CIRCLE_NODE_INDEX"
             echo "📊 Checking generated XML files..."
@@ -49,6 +50,8 @@ jobs:
                 grep -o 'testcase.*name=' "$file" | wc -l || echo "No testcases found"
               fi
             done
+            echo "📊 Total XML files:"
+            ls test-results/*.xml 2>/dev/null | wc -l
             echo "📊 Final test count summary will be in artifacts"
           environment:
             CI: true
@@ -56,7 +59,6 @@ jobs:
             KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests/**/*.test.js"
             KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
             KNAPSACK_PRO_LOG_LEVEL: info
-            JEST_JUNIT_OUTPUT_DIR: test-results
             JEST_JUNIT_UNIQUE_OUTPUT_NAME: true
       - store_test_results:
           path: test-results
