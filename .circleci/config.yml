@@ -86,9 +86,12 @@ jobs:
           destination: regular-coverage
 
 workflows:
-  test:
+  test-queue-mode:
+    when: << pipeline.parameters.run-queue-mode >>
     jobs:
-      - test-react-functionality-knapsack-queue:
-          when: << pipeline.parameters.run-queue-mode >>
-      - test-react-functionality-knapsack-regular:
-          when: << pipeline.parameters.run-regular-mode >>
+      - test-react-functionality-knapsack-queue
+
+  test-regular-mode:
+    when: << pipeline.parameters.run-regular-mode >>
+    jobs:
+      - test-react-functionality-knapsack-regular
