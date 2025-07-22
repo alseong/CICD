@@ -4,12 +4,6 @@ parameters:
   image-tag:
     type: string
     default: "current"
-  run-queue-mode:
-    type: boolean
-    default: true
-  run-regular-mode:
-    type: boolean
-    default: false
 
 executors:
   node-executor:
@@ -30,18 +24,6 @@ jobs:
             npm ci
             echo "✅ All dependencies installed!"
       - run:
-          name: Debug Environment Variables
-          command: |
-            echo "Checking if KNAPSACK_PRO_TEST_SUITE_TOKEN_JEST is set..."
-            if [ -z "$KNAPSACK_PRO_TEST_SUITE_TOKEN_JEST" ]; then
-              echo "❌ KNAPSACK_PRO_TEST_SUITE_TOKEN_JEST is NOT set"
-              exit 1
-            else
-              echo "✅ KNAPSACK_PRO_TEST_SUITE_TOKEN_JEST is set (length: ${#KNAPSACK_PRO_TEST_SUITE_TOKEN_JEST})"
-              echo "⚠️  SECURITY WARNING: Full token below - REMOVE THIS AFTER DEBUGGING!"
-              echo "Full token: $KNAPSACK_PRO_TEST_SUITE_TOKEN_JEST"
-            fi
-      - run:
           name: Run React tests with Knapsack Pro (Queue Mode)
           command: |
             mkdir -p test-results
@@ -50,7 +32,7 @@ jobs:
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
           environment:
             CI: true
-            KNAPSACK_PRO_TEST_SUITE_TOKEN_JEST: $KNAPSACK_PRO_TEST_SUITE_TOKEN_JEST
+            KNAPSACK_PRO_TEST_SUITE_TOKEN: $KNAPSACK_PRO_TEST_SUITE_TOKEN
             KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests/**/*.test.js"
             KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
             JEST_JUNIT_OUTPUT_DIR: test-results
@@ -63,7 +45,6 @@ jobs:
           path: coverage
           destination: queue-coverage
 
-  #test
   test-react-functionality-knapsack-regular:
     executor: node-executor
     parallelism: 4
@@ -80,11 +61,10 @@ jobs:
           command: |
             mkdir -p test-results
             mkdir -p coverage
-            export JEST_JUNIT_UNIQUE_OUTPUT_NAME=true
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
           environment:
             CI: true
-            KNAPSACK_PRO_TEST_SUITE_TOKEN_JEST: $KNAPSACK_PRO_TEST_SUITE_TOKEN_JEST
+            KNAPSACK_PRO_TEST_SUITE_TOKEN: $KNAPSACK_PRO_TEST_SUITE_TOKEN
             KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests/**/*.test.js"
             KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
             KNAPSACK_PRO_FIXED_QUEUE_SPLIT: "true"
@@ -99,12 +79,7 @@ jobs:
           destination: regular-coverage
 
 workflows:
-  test-queue-mode:
-    when: << pipeline.parameters.run-queue-mode >>
+  test:
     jobs:
       - test-react-functionality-knapsack-queue
-
-  test-regular-mode:
-    when: << pipeline.parameters.run-regular-mode >>
-    jobs:
-      - test-react-functionality-knapsack-regular
+      # - test-react-functionality-knapsack-regular
