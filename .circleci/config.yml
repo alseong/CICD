@@ -12,7 +12,7 @@ executors:
     working_directory: ~/project
 
 jobs:
-  test-react-functionality-knapsack:
+  test-react-functionality-knapsack-queue:
     executor: node-executor
     parallelism: 4
     steps:
@@ -24,10 +24,11 @@ jobs:
             npm ci
             echo "✅ All dependencies installed!"
       - run:
-          name: Run React tests with Knapsack Pro
+          name: Run React tests with Knapsack Pro (Queue Mode)
           command: |
             mkdir -p test-results
             mkdir -p coverage
+            export JEST_JUNIT_OUTPUT_NAME="junit-queue-node-${CIRCLE_NODE_INDEX}-${CIRCLE_BUILD_NUM}.xml"
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
           environment:
             CI: true
@@ -35,17 +36,51 @@ jobs:
             KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests/**/*.test.js"
             KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
             JEST_JUNIT_OUTPUT_DIR: test-results
-            JEST_JUNIT_OUTPUT_NAME: junit-node-${CIRCLE_NODE_INDEX}-${CIRCLE_BUILD_NUM}.xml
       - store_test_results:
           path: test-results
       - store_artifacts:
           path: test-results
-          destination: test-results
+          destination: queue-test-results
       - store_artifacts:
           path: coverage
-          destination: coverage
+          destination: queue-coverage
+
+  test-react-functionality-knapsack-regular:
+    executor: node-executor
+    parallelism: 4
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            echo "🔄 Installing fresh dependencies..."
+            npm ci
+            echo "✅ All dependencies installed!"
+      - run:
+          name: Run React tests with Knapsack Pro (Regular Mode)
+          command: |
+            mkdir -p test-results
+            mkdir -p coverage
+            export JEST_JUNIT_OUTPUT_NAME="junit-regular-node-${CIRCLE_NODE_INDEX}-${CIRCLE_BUILD_NUM}.xml"
+            npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
+          environment:
+            CI: true
+            KNAPSACK_PRO_TEST_SUITE_TOKEN: $KNAPSACK_PRO_TEST_SUITE_TOKEN
+            KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests/**/*.test.js"
+            KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
+            KNAPSACK_PRO_FIXED_QUEUE_SPLIT: true
+            JEST_JUNIT_OUTPUT_DIR: test-results
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: regular-test-results
+      - store_artifacts:
+          path: coverage
+          destination: regular-coverage
 
 workflows:
   test:
     jobs:
-      - test-react-functionality-knapsack
+      - test-react-functionality-knapsack-queue
+      - test-react-functionality-knapsack-regular
