@@ -51,6 +51,7 @@ jobs:
           path: coverage
           destination: queue-coverage
 
+  #test
   test-react-functionality-knapsack-regular:
     executor: node-executor
     parallelism: 4
