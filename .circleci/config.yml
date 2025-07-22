@@ -61,6 +61,7 @@ jobs:
           command: |
             mkdir -p test-results
             mkdir -p coverage
+            export JEST_JUNIT_UNIQUE_OUTPUT_NAME=true
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
           environment:
             CI: true
@@ -81,5 +82,5 @@ jobs:
 workflows:
   test:
     jobs:
-      - test-react-functionality-knapsack-queue
-      # - test-react-functionality-knapsack-regular
+      #- test-react-functionality-knapsack-queue
+      - test-react-functionality-knapsack-regular
