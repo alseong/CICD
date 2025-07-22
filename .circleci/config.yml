@@ -37,6 +37,7 @@ jobs:
             echo "Node index: $CIRCLE_NODE_INDEX of $CIRCLE_NODE_TOTAL"
             echo "Expected total tests: $(($(find tests -name '*.test.js' | wc -l) * 4))"
             echo "🚀 Starting Knapsack Pro..."
+            export JEST_JUNIT_OUTPUT_NAME="node-${CIRCLE_NODE_INDEX}-batch.xml"
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
             echo "✅ Knapsack Pro React tests completed on node $CIRCLE_NODE_INDEX"
             echo "📊 Checking generated XML files..."
@@ -57,7 +58,6 @@ jobs:
             KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
             KNAPSACK_PRO_LOG_LEVEL: info
             JEST_JUNIT_OUTPUT_DIR: test-results
-            JEST_JUNIT_OUTPUT_NAME: node-${CIRCLE_NODE_INDEX}-batch.xml
             JEST_JUNIT_UNIQUE_OUTPUT_NAME: true
       - store_test_results:
           path: test-results
