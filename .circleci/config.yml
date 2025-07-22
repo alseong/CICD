@@ -9,7 +9,7 @@ parameters:
     default: true
   run-regular-mode:
     type: boolean
-    default: true
+    default: false
 
 executors:
   node-executor:
@@ -29,6 +29,16 @@ jobs:
             echo "🔄 Installing fresh dependencies..."
             npm ci
             echo "✅ All dependencies installed!"
+      - run:
+          name: Debug Environment Variables
+          command: |
+            echo "Checking if KNAPSACK_PRO_TEST_SUITE_TOKEN is set..."
+            if [ -z "$KNAPSACK_PRO_TEST_SUITE_TOKEN" ]; then
+              echo "❌ KNAPSACK_PRO_TEST_SUITE_TOKEN is NOT set"
+              exit 1
+            else
+              echo "✅ KNAPSACK_PRO_TEST_SUITE_TOKEN is set (length: ${#KNAPSACK_PRO_TEST_SUITE_TOKEN})"
+            fi
       - run:
           name: Run React tests with Knapsack Pro (Queue Mode)
           command: |
