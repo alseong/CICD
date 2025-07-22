@@ -21,7 +21,6 @@ jobs:
           name: Install dependencies
           command: |
             echo "🔄 Installing fresh dependencies..."
-            npm cache clean --force
             npm ci
             echo "✅ All dependencies installed!"
       - run:
