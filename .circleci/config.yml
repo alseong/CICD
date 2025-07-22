@@ -28,6 +28,13 @@ jobs:
           command: |
             mkdir -p test-results
             mkdir -p coverage
+            echo "🔍 Debugging test discovery..."
+            echo "Total test files found:"
+            find tests -name "*.test.js" | wc -l
+            echo "Test files:"
+            find tests -name "*.test.js" | head -10
+            echo "Knapsack Pro token set: ${KNAPSACK_PRO_TEST_SUITE_TOKEN:+YES}"
+            echo "Node index: $CIRCLE_NODE_INDEX of $CIRCLE_NODE_TOTAL"
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
             echo "✅ Knapsack Pro React tests completed"
           environment:
@@ -41,10 +48,10 @@ jobs:
           path: test-results
       - store_artifacts:
           path: test-results
-          destination: test-reports
+          destination: test-results
       - store_artifacts:
           path: coverage
-          destination: coverage-reports
+          destination: coverage
 
 workflows:
   test:
