@@ -28,7 +28,7 @@ jobs:
           command: |
             mkdir -p test-results
             mkdir -p coverage
-            export JEST_JUNIT_OUTPUT_NAME="junit-queue-node-${CIRCLE_NODE_INDEX}-${CIRCLE_BUILD_NUM}.xml"
+            export JEST_JUNIT_UNIQUE_OUTPUT_NAME=true
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
           environment:
             CI: true
@@ -61,7 +61,6 @@ jobs:
           command: |
             mkdir -p test-results
             mkdir -p coverage
-            export JEST_JUNIT_OUTPUT_NAME="junit-regular-node-${CIRCLE_NODE_INDEX}-${CIRCLE_BUILD_NUM}.xml"
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
           environment:
             CI: true
