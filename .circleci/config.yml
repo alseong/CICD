@@ -33,7 +33,7 @@ jobs:
             CI: true
             KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests/**/*.test.js"
             JEST_JUNIT_OUTPUT_DIR: test-results
-            JEST_JUNIT_OUTPUT_NAME: results-${CIRCLE_NODE_INDEX}.xml
+            JEST_JUNIT_UNIQUE_OUTPUT_NAME: true
       - store_test_results:
           path: test-results
       - store_artifacts:
