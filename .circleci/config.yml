@@ -35,7 +35,7 @@ jobs:
             KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests/**/*.test.js"
             KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
             JEST_JUNIT_OUTPUT_DIR: test-results
-            JEST_JUNIT_UNIQUE_OUTPUT_NAME: true
+            JEST_JUNIT_OUTPUT_NAME: junit-node-${CIRCLE_NODE_INDEX}-${CIRCLE_BUILD_NUM}.xml
       - store_test_results:
           path: test-results
       - store_artifacts:
