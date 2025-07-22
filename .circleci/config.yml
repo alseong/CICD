@@ -14,7 +14,7 @@ executors:
 jobs:
   test-react-functionality-knapsack-queue:
     executor: node-executor
-    parallelism: 4
+    parallelism: 2
     steps:
       - checkout
       - run:
@@ -38,7 +38,7 @@ jobs:
           environment:
             CI: true
             KNAPSACK_PRO_TEST_SUITE_TOKEN: $KNAPSACK_PRO_TEST_SUITE_TOKEN_QUEUE
-            KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests/**/*.test.js"
+            KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests2/**/*.test.js"
             KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
             JEST_JUNIT_OUTPUT_DIR: test-results
       - store_test_results:
@@ -76,7 +76,7 @@ jobs:
           environment:
             CI: true
             KNAPSACK_PRO_TEST_SUITE_TOKEN: $KNAPSACK_PRO_TEST_SUITE_TOKEN_REGULAR
-            KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests/**/*.test.js"
+            KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests2/**/*.test.js"
             KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
             KNAPSACK_PRO_FIXED_QUEUE_SPLIT: "true"
             JEST_JUNIT_OUTPUT_DIR: test-results
