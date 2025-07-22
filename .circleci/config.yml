@@ -48,7 +48,7 @@ jobs:
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
           environment:
             CI: true
-            KNAPSACK_PRO_TEST_SUITE_TOKEN: $KNAPSACK_PRO_TEST_SUITE_TOKEN
+            KNAPSACK_PRO_TEST_SUITE_TOKEN_JEST: $KNAPSACK_PRO_TEST_SUITE_TOKEN_JEST
             KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests/**/*.test.js"
             KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
             JEST_JUNIT_OUTPUT_DIR: test-results
