@@ -28,37 +28,13 @@ jobs:
           command: |
             mkdir -p test-results
             mkdir -p coverage
-            echo "🔍 Debugging test discovery..."
-            echo "Total test files found:"
-            find tests -name "*.test.js" | wc -l
-            echo "Test files:"
-            find tests -name "*.test.js" | head -10
-            echo "Knapsack Pro token set: ${KNAPSACK_PRO_TEST_SUITE_TOKEN:+YES}"
-            echo "Node index: $CIRCLE_NODE_INDEX of $CIRCLE_NODE_TOTAL"
-            echo "Expected total tests: $(($(find tests -name '*.test.js' | wc -l) * 4))"
-            echo "🚀 Starting Knapsack Pro..."
-            export JEST_JUNIT_OUTPUT_DIR="test-results"
             npx knapsack-pro-jest --runInBand --coverage --reporters=default --reporters=jest-junit
-            echo "✅ Knapsack Pro React tests completed on node $CIRCLE_NODE_INDEX"
-            echo "📊 Checking generated XML files..."
-            ls -la test-results/
-            echo "📊 XML file contents summary:"
-            for file in test-results/*.xml; do
-              if [ -f "$file" ]; then
-                echo "=== $file ==="
-                grep -o 'tests="[0-9]*"' "$file" || echo "No tests attribute found"
-                grep -o 'testcase.*name=' "$file" | wc -l || echo "No testcases found"
-              fi
-            done
-            echo "📊 Total XML files:"
-            ls test-results/*.xml 2>/dev/null | wc -l
-            echo "📊 Final test count summary will be in artifacts"
           environment:
             CI: true
             KNAPSACK_PRO_TEST_SUITE_TOKEN: $KNAPSACK_PRO_TEST_SUITE_TOKEN
             KNAPSACK_PRO_TEST_FILE_PATTERN: "./tests/**/*.test.js"
             KNAPSACK_PRO_COVERAGE_DIRECTORY: coverage
-            KNAPSACK_PRO_LOG_LEVEL: info
+            JEST_JUNIT_OUTPUT_DIR: test-results
             JEST_JUNIT_UNIQUE_OUTPUT_NAME: true
       - store_test_results:
           path: test-results
